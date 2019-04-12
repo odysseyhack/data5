@@ -19,20 +19,14 @@ namespace DatasetDownloader
         public void GetDatasetDataFile(string url, string type)
         {
             if (DownloadedFiles == null)
-            {
                 DownloadedFiles = new List<string>();
-            }
 
-            if (AwaitedDownloads == null)
-            {
+            if(AwaitedDownloads == null)
                 AwaitedDownloads = new List<string>();
-            }
 
             AwaitedDownloads.Add(url + ";" + type);
             if(!this.isDownloading)
-            {
                 this.DownloadFiles();
-            }
 
             this.isDownloading = true;
         }
@@ -45,21 +39,21 @@ namespace DatasetDownloader
                 return true;
             }
 
-            var url = this.AwaitedDownloads[0].Split(';')[0];
-            var type = this.AwaitedDownloads[0].Split(';')[1];
-            var filename = Path.Combine(downloadpath, Guid.NewGuid().ToString() + "." + type);
-
+            var filename = Path.Combine(downloadpath, Guid.NewGuid().ToString() + "." + this.AwaitedDownloads[0].Split(';')[1]);
             this.AwaitedDownloads.RemoveAt(0);
-
-            using (WebClient wc = new WebClient())
-            {
-                DownloadedFiles.Add(filename + ";" + type);
-                // wc.DownloadProgressChanged += FileDownloaded;
-                wc.DownloadFileCompleted += FileDownloaded;
-                wc.DownloadFileAsync(new Uri(url), filename);
-            }
+            this.ExecuteDownload(filename);
 
             return true;
+        }
+
+        private void ExecuteDownload(string filename)
+        {
+            using (WebClient wc = new WebClient())
+            {
+                DownloadedFiles.Add(filename + ";" + this.AwaitedDownloads[0].Split(';')[1]);
+                wc.DownloadFileCompleted += FileDownloaded;
+                wc.DownloadFileAsync(new Uri(this.AwaitedDownloads[0].Split(';')[0]), filename);
+            }
         }
 
         private void FileDownloaded(object sender, AsyncCompletedEventArgs e)
@@ -97,24 +91,18 @@ namespace DatasetDownloader
 
         public string DetermineDelimiter(string line1, string line2)
         {
-            var count1 = line1.Split(',').Length;
-            var count2 = line2.Split(',').Length;
-
-            if(count1 != count2 || (count1 == 0 && count2 == 0))
+            var delimiters = new[] { ';', ',', '\t' };
+            foreach(var delimiter in delimiters)
             {
-                count1 = line1.Split(';').Length;
-                count2 = line2.Split(';').Length;
-                return ";";
+                var count1 = line1.Split(delimiter).Length;
+                var count2 = line2.Split(delimiter).Length;
+                if (count1 == count2 && (count1 > 0 && count2 > 0))
+                {
+                    return delimiter.ToString();
+                }
             }
 
-            if (count1 != count2 || (count1 == 0 && count2 == 0))
-            {
-                count1 = line1.Split("\t").Length;
-                count2 = line2.Split("\t").Length;
-                return "\t";
-            }
-
-            return ",";
+            throw new Exception("No delimiter data found, please check this set manually.");
         }
     }
 }
