@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataIntergration", "DataInt
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatasetDownloader", "..\DatasetDownloader\DatasetDownloader.csproj", "{550EF946-F2C1-4F46-8B77-BF737736994C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{99356952-690B-4BF4-80C6-6E9CFA3BE8CF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataIntegrationUnitTests", "..\DataIntegrationUnitTests\DataIntegrationUnitTests.csproj", "{57F5D4AC-C261-4668-A4AC-CDF09E4413CE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,9 +25,16 @@ Global
 		{550EF946-F2C1-4F46-8B77-BF737736994C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{550EF946-F2C1-4F46-8B77-BF737736994C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{550EF946-F2C1-4F46-8B77-BF737736994C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57F5D4AC-C261-4668-A4AC-CDF09E4413CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57F5D4AC-C261-4668-A4AC-CDF09E4413CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57F5D4AC-C261-4668-A4AC-CDF09E4413CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57F5D4AC-C261-4668-A4AC-CDF09E4413CE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{57F5D4AC-C261-4668-A4AC-CDF09E4413CE} = {99356952-690B-4BF4-80C6-6E9CFA3BE8CF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AD03FA86-867F-40D6-B542-00720B4BAD75}

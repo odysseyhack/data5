@@ -31,7 +31,7 @@ namespace DatasetDownloader
             this.isDownloading = true;
         }
 
-        private bool DownloadFiles()
+        public bool DownloadFiles()
         {
             if(this.AwaitedDownloads.Count == 0)
             {
@@ -40,13 +40,13 @@ namespace DatasetDownloader
             }
 
             var filename = Path.Combine(downloadpath, Guid.NewGuid().ToString() + "." + this.AwaitedDownloads[0].Split(';')[1]);
-            this.AwaitedDownloads.RemoveAt(0);
             this.ExecuteDownload(filename);
+            this.AwaitedDownloads.RemoveAt(0);
 
             return true;
         }
 
-        private void ExecuteDownload(string filename)
+        public void ExecuteDownload(string filename)
         {
             using (WebClient wc = new WebClient())
             {
@@ -56,7 +56,7 @@ namespace DatasetDownloader
             }
         }
 
-        private void FileDownloaded(object sender, AsyncCompletedEventArgs e)
+        public void FileDownloaded(object sender, AsyncCompletedEventArgs e)
         {
             var filename = this.DownloadedFiles[0].Split(';')[0];
             var type = this.DownloadedFiles[0].Split(';')[1];
@@ -75,7 +75,7 @@ namespace DatasetDownloader
             }
         }
 
-        private void ExtractCsvData(string data)
+        public void ExtractCsvData(string data)
         {
             var items = data.Replace("\r", string.Empty).Split("\n");
             if(items.Length > 1)
