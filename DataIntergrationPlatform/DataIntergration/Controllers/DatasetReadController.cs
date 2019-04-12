@@ -21,34 +21,11 @@ namespace DataIntergration.Controllers
                     var itemset = line.Split(';');
                     if (itemset.Length > 1)
                     {
-                        switch (itemset[0].Split(':')[1])
-                        {
-                            case "xls":
-                                break;
-                            case "xlsx":
-                                break;
-                            case "pdf":
-                                break;
-                            case "csv":
-                                provider.GetDatasetDataFile(itemset[3], "csv");
-                                break;
-                            case "xml":
-                                break;
-                            case "json":
-                                break;
-                            case "rss":
-                                break;
-                            case "zip":
-                                break;
-
-
-                        }
+                        provider.GetDatasetDataFile(itemset[3], itemset[0].Split(':')[1]);
                     }
                 }
-
                 streamreader.Close();
             }
          }
-
     }
 }

@@ -67,26 +67,17 @@ namespace DatasetDownloader
             var filename = this.DownloadedFiles[0].Split(';')[0];
             var type = this.DownloadedFiles[0].Split(';')[1];
             this.DownloadedFiles.RemoveAt(0);
-
-            // start next download
-            //this.DownloadFiles();
             this.isDownloading = false;
 
-
-            // read file
             using (var streamreader = new StreamReader(filename))
             {
                 var data = streamreader.ReadToEnd();
-
                 switch(type)
                 {
                     case "csv":
                         this.ExtractCsvData(data);
                         break;
                 }
-
-                
-                streamreader.Close();
             }
         }
 
