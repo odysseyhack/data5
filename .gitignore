@@ -3,3 +3,8 @@
 ################################################################################
 
 /DataIntergrationPlatform/.vs/DataIntergration/v16
+/MachineLearning/.vs
+/MachineLearning/MachineLearning/bin/Debug/netcoreapp2.1
+/MachineLearning/MachineLearning/obj
+/MachineLearning/MachineLearning.Tests/bin/Debug/netcoreapp2.1
+/MachineLearning/MachineLearning.Tests/obj
