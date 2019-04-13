@@ -55,7 +55,6 @@ namespace MachineLearning.BusinessLogic
             prediction = this.predictionEngine.Predict(matchData);
 
             this.logger.LogInformation($"Cluster: {prediction.PredictedClusterId}");
-            // this.logger.LogInformation($"Distances: {string.Join(" ", prediction.Distances)}");
             this.logger.LogInformation($"Distance: { prediction.Distances[prediction.PredictedClusterId - 1] }");
 
             return true;
