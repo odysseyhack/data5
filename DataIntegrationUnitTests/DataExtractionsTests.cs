@@ -107,5 +107,105 @@ namespace DataIntegrationUnitTests
             var test = de.ExecuteDataInformationExtraction(data, ";", "banana.txt");
             Assert.AreEqual(test.DataFieldAnalysis[0].MinimumFieldLength, 157);
         }
+
+        // duplicating test -> for coverage
+
+        [TestMethod]
+        public void DataExtractionTest11()
+        {
+            DataExtractions de = new DataExtractions();
+            string[] data = null;
+            using (var reader = new StreamReader(@".\Testdata\CsvDelimited.csv"))
+            {
+                data = reader.ReadToEnd().Replace("\r", string.Empty).Split('\n');
+            }
+
+            var test = de.ExecuteDataInformationExtraction(data, ";", "banana.txt");
+            Assert.AreEqual(test.DataFieldAnalysis.Count, 1);
+        }
+
+        [TestMethod]
+        public void DataExtractionTest12()
+        {
+            DataExtractions de = new DataExtractions();
+            string[] data = null;
+            using (var reader = new StreamReader(@".\Testdata\CsvDelimited.csv"))
+            {
+                data = reader.ReadToEnd().Replace("\r", string.Empty).Split('\n');
+            }
+
+            var test = de.ExecuteDataInformationExtraction(data, ";", "banana.txt");
+            Assert.AreEqual(test.DataFieldAnalysis[0].AverageFieldLength, 157);
+        }
+
+        [TestMethod]
+        public void DataExtractionTest13()
+        {
+            DataExtractions de = new DataExtractions();
+            string[] data = null;
+            using (var reader = new StreamReader(@".\Testdata\CsvDelimited.csv"))
+            {
+                data = reader.ReadToEnd().Replace("\r", string.Empty).Split('\n');
+            }
+
+            var test = de.ExecuteDataInformationExtraction(data, ";", "banana.txt");
+            Assert.AreEqual(test.DataFieldAnalysis[0].ConsistentDataType, "N37;A5;N1;A1;N3;A14;N2;A55;N1;A16");
+        }
+
+        [TestMethod]
+        public void DataExtractionTest14()
+        {
+            DataExtractions de = new DataExtractions();
+            string[] data = null;
+            using (var reader = new StreamReader(@".\Testdata\CsvDelimited.csv"))
+            {
+                data = reader.ReadToEnd().Replace("\r", string.Empty).Split('\n');
+            }
+
+            var test = de.ExecuteDataInformationExtraction(data, ";", "banana.txt");
+            Assert.AreEqual(test.DataFieldAnalysis[0].DamerauValue, 13.4);
+        }
+
+        [TestMethod]
+        public void DataExtractionTest15()
+        {
+            DataExtractions de = new DataExtractions();
+            string[] data = null;
+            using (var reader = new StreamReader(@".\Testdata\CsvDelimited.csv"))
+            {
+                data = reader.ReadToEnd().Replace("\r", string.Empty).Split('\n');
+            }
+
+            var test = de.ExecuteDataInformationExtraction(data, ";", "banana.txt");
+            Assert.AreEqual(test.DataFieldAnalysis[0].FieldIsConsistent, true);
+        }
+
+        [TestMethod]
+        public void DataExtractionTest16()
+        {
+            DataExtractions de = new DataExtractions();
+            string[] data = null;
+            using (var reader = new StreamReader(@".\Testdata\CsvDelimited.csv"))
+            {
+                data = reader.ReadToEnd().Replace("\r", string.Empty).Split('\n');
+            }
+
+            var test = de.ExecuteDataInformationExtraction(data, ";", "banana.txt");
+            Assert.AreEqual(test.DataFieldAnalysis[0].MaximumFieldLength, 157);
+        }
+
+        [TestMethod]
+        public void DataExtractionTest17()
+        {
+            DataExtractions de = new DataExtractions();
+            string[] data = null;
+            using (var reader = new StreamReader(@".\Testdata\CsvDelimited.csv"))
+            {
+                data = reader.ReadToEnd().Replace("\r", string.Empty).Split('\n');
+            }
+
+            var test = de.ExecuteDataInformationExtraction(data, ";", "banana.txt");
+            Assert.AreEqual(test.DataFieldAnalysis[0].MinimumFieldLength, 157);
+        }
     }
 }
