@@ -3,3 +3,19 @@
 ################################################################################
 
 /DataIntergrationPlatform/.vs/DataIntergration/v16
+/DatasetDownloader/bin/Debug/netcoreapp2.2
+/DatasetDownloader/obj/Debug/netcoreapp2.2
+/DatasetDownloader/obj
+/DataIntergrationPlatform/DataIntergration/bin/Debug/netcoreapp2.2/DatasetDownloader.pdb
+/DataIntergrationPlatform/DataIntergration/bin/Debug/netcoreapp2.2/DatasetDownloader.dll
+/DataIntergrationPlatform/DataIntergration/bin/Debug/netcoreapp2.2/DataIntergration.Views.pdb
+/DataIntergrationPlatform/DataIntergration/bin/Debug/netcoreapp2.2/DataIntergration.Views.dll
+/DataIntergrationPlatform/DataIntergration/bin/Debug/netcoreapp2.2/DataIntergration.runtimeconfig.json
+/DataIntergrationPlatform/DataIntergration/bin/Debug/netcoreapp2.2/DataIntergration.runtimeconfig.dev.json
+/DataIntergrationPlatform/DataIntergration/bin/Debug/netcoreapp2.2/DataIntergration.pdb
+/DataIntergrationPlatform/DataIntergration/bin/Debug/netcoreapp2.2/DataIntergration.dll
+/DataIntergrationPlatform/DataIntergration/bin/Debug/netcoreapp2.2/DataIntergration.deps.json
+/DataIntegrationUnitTests/bin/Debug/netcoreapp2.2
+/DataIntergrationPlatform/DataIntergration/bin/Debug/netcoreapp2.2/Urls
+/DataIntegrationUnitTests/obj
+/DataIntergrationPlatform/.vs/DataIntergration/DesignTimeBuild
