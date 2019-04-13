@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-using MachineLearning.BusinessLogic;
+﻿using MachineLearning.BusinessLogic;
 using Microsoft.Extensions.Logging;
 
 using Moq;
@@ -37,7 +33,7 @@ namespace MachineLearning.Tests
             var matcher = new Matcher(this.logger.Object);
 
             // Test
-            var response = matcher.Learn(@".\Data\TestSet.csv", true, new[] { "Columns" });
+            var response = matcher.Learn(@".\Data\TestSet.csv", 6, true, new[] { "Columns" });
 
             // Check
             Assert.True(response);
@@ -48,7 +44,7 @@ namespace MachineLearning.Tests
         {
             // Setup
             var matcher = new Matcher(this.logger.Object);
-            matcher.Learn(@".\Data\TestSet.csv", true, new[] { "Columns" });
+            matcher.Learn(@".\Data\TestSet.csv", 6, true, new[] { "Columns" });
 
             // Test
             var response = matcher.Match(new ModelData { Columns = new[] { (float)0.1, (float)0.2, (float)0.3, (float)0.4, (float)0.5, (float)0.6, (float)0.7 } }, out MatchPrediction matchPrediction);
