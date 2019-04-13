@@ -10,9 +10,11 @@ namespace DatasetDownloader.BusinessLogic
     public class DataExtractions : IDataExtractions
     {
         private const string CleanSetLocation = @"C:\Temp\DataDownload\Cleandata\";
+        private string delimiter { get; set; }
 
-        public DataFieldMain ExecuteDataInformationExtraction(string[] items, string delimiter, string originalFilename)
+        public DataFieldMain ExecuteDataInformationExtraction(string[] items, string delimiterchar, string originalFilename)
         {
+            this.delimiter = delimiterchar;
             var analysisList = new DataFieldMain() { DataFieldAnalysis = new List<DataFieldAnalysis>() };
             List<string> cleanedSet = new List<string>();
             var potentialHeader = items.First();
@@ -29,8 +31,18 @@ namespace DatasetDownloader.BusinessLogic
                 {
                     DataFieldAnalysis dfa = new DataFieldAnalysis();
                     this.InstanceNewDataFieldAnalysis(dfa);
-                    this.GetSizeInfo(items, delimiter, index, column, dfa);
-                    lastvalue = this.LoopForEachItem(items, delimiter, cleanedSet, index, dfa, lastvalue);
+                    this.GetSizeInfo(items, index, column, dfa);
+
+                    foreach (var i in items)
+                    {
+                        cleanedSet.Add(this.CleanString(i.Replace(delimiter, "|")).Replace("|", ";").ToLower());
+                        if (i.Trim().Any())
+                        {
+                            string linedata = GetFieldType(delimiter, index, dfa, i);
+                            lastvalue = SpittedDamerau(lastvalue, dfa, linedata);
+                        }
+                    }
+
                     this.CleanItemProperties(items, dfa);
 
                     analysisList.DataFieldAnalysis.Add(dfa);
@@ -47,6 +59,25 @@ namespace DatasetDownloader.BusinessLogic
             analysisList.CleansetFilename = this.WriteCleanset(cleanedSet);
             analysisList.OriginalsetFilename = this.WriteCleanset(cleanedSet);
             return analysisList;
+        }
+
+        private string GetFieldType(string delimiter, int index, DataFieldAnalysis dfa, string i)
+        {
+            var linedata = i.Split(delimiter)[index];
+            dfa.FieldConsistenceList.Add(this.GetConsistency(this.CleanString(linedata).Select(f => this.GetDataConsistence(f)).ToArray()));
+            dfa.FieldType.Add(this.DetermineFieldType(dfa.FieldConsistenceList.Last(), linedata.Trim()));
+            return linedata;
+        }
+
+        private string SpittedDamerau(string lastvalue, DataFieldAnalysis dfa, string linedata)
+        {
+            if (lastvalue.Any())
+            {
+                dfa.DamerauValue += this.DamerauLevenshteinDistance(linedata, lastvalue);
+            }
+
+            lastvalue = linedata;
+            return lastvalue;
         }
 
         private void CleanItemProperties(string[] items, DataFieldAnalysis dfa)
@@ -72,29 +103,6 @@ namespace DatasetDownloader.BusinessLogic
             }
         }
 
-        private string LoopForEachItem(string[] items, string delimiter, List<string> cleanedSet, int index, DataFieldAnalysis dfa, string lastvalue)
-        {
-            foreach (var i in items)
-            {
-                cleanedSet.Add(this.CleanString(i.Replace(delimiter, "|")).Replace("|", ";").ToLower());
-                if (i.Trim().Any())
-                {
-                    var linedata = i.Split(delimiter)[index];
-                    dfa.FieldConsistenceList.Add(this.GetConsistency(this.CleanString(linedata).Select(f => this.GetDataConsistence(f)).ToArray()));
-                    dfa.FieldType.Add(this.DetermineFieldType(dfa.FieldConsistenceList.Last(), linedata.Trim()));
-
-                    if (lastvalue.Any())
-                    {
-                        dfa.DamerauValue += this.DamerauLevenshteinDistance(linedata, lastvalue);
-                    }
-
-                    lastvalue = linedata;
-                }
-            }
-
-            return lastvalue;
-        }
-
         private void InstanceNewDataFieldAnalysis(DataFieldAnalysis dfa)
         {
             if (dfa.FieldConsistenceList == null)
@@ -108,11 +116,11 @@ namespace DatasetDownloader.BusinessLogic
             }
         }
 
-        private void GetSizeInfo(string[] items, string delimiter, int index, string column, DataFieldAnalysis dfa)
+        private void GetSizeInfo(string[] items, int index, string column, DataFieldAnalysis dfa)
         {
-            dfa.MinimumFieldLength = items.Where(f => f.Trim().Length > 0).Select(f => f.Split(delimiter)[index].Length).Min();
-            dfa.MaximumFieldLength = items.Where(f => f.Trim().Length > 0).Select(f => f.Split(delimiter)[index].Length).Max();
-            dfa.AverageFieldLength = (int)items.Where(f => f.Trim().Length > 0).Select(f => f.Split(delimiter)[index].Length).Average();
+            dfa.MinimumFieldLength = items.Where(f => f.Trim().Length > 0).Select(f => f.Split(this.delimiter)[index].Length).Min();
+            dfa.MaximumFieldLength = items.Where(f => f.Trim().Length > 0).Select(f => f.Split(this.delimiter)[index].Length).Max();
+            dfa.AverageFieldLength = (int)items.Where(f => f.Trim().Length > 0).Select(f => f.Split(this.delimiter)[index].Length).Average();
             dfa.FieldName = this.CleanString(column).ToLower();
         }
 
@@ -228,11 +236,7 @@ namespace DatasetDownloader.BusinessLogic
                 return value1.Length;
             }
 
-            var costs = new int[value2.Length];
-            for (var i = 0; i < costs.Length;)
-            {
-                costs[i] = ++i;
-            }
+            int[] costs = GetNewCostsInit(value2);
 
             for (var i = 0; i < value1.Length; i++)
             {
@@ -242,7 +246,20 @@ namespace DatasetDownloader.BusinessLogic
 
                 for (int j = 0; j < value2.Length; j++)
                 {
-                    CalculateCosts(value1, value2, costs, i, ref cost, ref additionCost, value1Char, j);
+                    int insertionCost = cost;
+                    cost = additionCost;
+                    additionCost = costs[j];
+                    if (value1Char != value2[j])
+                    {
+                        cost = GetAdditionalCosts(cost, additionCost, insertionCost);
+
+                        if (i > 0 && j > 0 && value1[i] == value2[j - 1] && value1[i - 1] == value2[j])
+                        {
+                            --cost;
+                        }
+
+                        ++cost;
+                    }
 
                     costs[j] = cost;
                 }
@@ -251,30 +268,30 @@ namespace DatasetDownloader.BusinessLogic
             return costs[costs.Length - 1];
         }
 
-        private static void CalculateCosts(string value1, string value2, int[] costs, int i, ref int cost, ref int additionCost, char value1Char, int j)
+        private static int[] GetNewCostsInit(string value2)
         {
-            int insertionCost = cost;
-            cost = additionCost;
-            additionCost = costs[j];
-            if (value1Char != value2[j])
+            var costs = new int[value2.Length];
+            for (var i = 0; i < costs.Length;)
             {
-                if (insertionCost < cost)
-                {
-                    cost = insertionCost;
-                }
-
-                if (additionCost < cost)
-                {
-                    cost = additionCost;
-                }
-
-                if (i > 0 && j > 0 && value1[i] == value2[j - 1] && value1[i - 1] == value2[j])
-                {
-                    --cost;
-                }
-
-                ++cost;
+                costs[i] = ++i;
             }
+
+            return costs;
+        }
+
+        private static int GetAdditionalCosts(int cost, int additionCost, int insertionCost)
+        {
+            if (insertionCost < cost)
+            {
+                cost = insertionCost;
+            }
+
+            if (additionCost < cost)
+            {
+                cost = additionCost;
+            }
+
+            return cost;
         }
     }
 }
