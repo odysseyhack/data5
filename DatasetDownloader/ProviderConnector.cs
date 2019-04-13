@@ -83,15 +83,8 @@ namespace DatasetDownloader
                         case "json":
                             (new JsonExtractor(extractions)).GetJsonExtraction(data, filename);
                             break;
-                        case "xml":
-                        default:
-                            break;
                     }
                 }
-            }
-            else
-            {
-
             }
 
             this.DownloadFiles();

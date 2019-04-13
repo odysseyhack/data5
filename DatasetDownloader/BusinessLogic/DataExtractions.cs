@@ -12,18 +12,34 @@ namespace DatasetDownloader.BusinessLogic
         private const string CleanSetLocation = @"C:\Temp\DataDownload\Cleandata\";
         private string delimiter { get; set; }
 
+        private DataFieldMain analysisList { get; set; }  
+
+        public DataExtractions()
+        {
+            analysisList = new DataFieldMain() { DataFieldAnalysis = new List<DataFieldAnalysis>() };
+        }
+
         public DataFieldMain ExecuteDataInformationExtraction(string[] items, string delimiterchar, string originalFilename)
         {
             this.delimiter = delimiterchar;
-            var analysisList = new DataFieldMain() { DataFieldAnalysis = new List<DataFieldAnalysis>() };
-            List<string> cleanedSet = new List<string>();
+            
+            var cleanedSet = new List<string>();
             var potentialHeader = items.First();
 
             cleanedSet.Add(this.CleanString(potentialHeader.Replace(delimiter, "|")).Replace("|", ";").ToLower());
             items.ToList().CopyTo(1, items, 0, items.Length - 1);
-            var index = 0;
 
-            foreach (var column in potentialHeader.Split(delimiter))
+            this.GetExtractedInformation(items, potentialHeader, cleanedSet);
+
+            analysisList.CleansetFilename = this.WriteCleanset(cleanedSet);
+            analysisList.OriginalsetFilename = this.WriteCleanset(cleanedSet);
+            return analysisList;
+        }
+
+        private void GetExtractedInformation(string[] items, string header, List<string> cleanedSet)
+        {
+            var index = 0;
+            foreach (var column in header.Split(delimiter))
             {
                 string lastvalue = string.Empty;
 
@@ -55,10 +71,6 @@ namespace DatasetDownloader.BusinessLogic
                     break;
                 }
             }
-
-            analysisList.CleansetFilename = this.WriteCleanset(cleanedSet);
-            analysisList.OriginalsetFilename = this.WriteCleanset(cleanedSet);
-            return analysisList;
         }
 
         private string GetFieldType(string delimiter, int index, DataFieldAnalysis dfa, string i)
