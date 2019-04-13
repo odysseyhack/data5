@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DatasetDownloader;
+using DatasetDownloader.BusinessLogic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -31,7 +33,8 @@ namespace DataIntergration
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddSingleton<DatasetDownloader.IProviderConnector, DatasetDownloader.ProviderConnector>();
+            services.AddSingleton<IProviderConnector, ProviderConnector>();
+            services.AddSingleton<IDataExtractions, DataExtractions>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
@@ -49,6 +52,8 @@ namespace DataIntergration
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            this.GetAppPolicies(app);
         }
 
         private void GetAppPolicies(IApplicationBuilder app)
@@ -62,6 +67,9 @@ namespace DataIntergration
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+                routes.MapRoute(
+                    name: "readdataset",
+                    template: "{controller=DatasetRead}/{action=ReadDataSet}");
             });
         }
     }

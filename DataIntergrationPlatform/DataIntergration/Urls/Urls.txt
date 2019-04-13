@@ -1,4 +1,6 @@
-﻿downloadtype:csv;type:;name:;https://opendata.arcgis.com/datasets/4e3ee61ac5a34c28981e8c61f94d098a_0.csv
+﻿downloadtype:json;type:ScholingAchterstanden;name:UntypedDataSet;https://opendata.cbs.nl/ODataApi/odata/81081ned/UntypedDataSet
+downloadtype:json;type:ScholingAchterstanden;name:TableInfos;https://opendata.cbs.nl/ODataApi/odata/81081ned/TableInfos
+downloadtype:csv;type:;name:;https://opendata.arcgis.com/datasets/4e3ee61ac5a34c28981e8c61f94d098a_0.csv
 downloadtype:csv;type:;name:;http://vastgoeddashboard.kadaster.nl/vgd/woningen/verkocht.csv?years_back=100
 downloadtype:csv;type:;name:;http://vastgoeddashboard.kadaster.nl/vgd/woningen/verkocht.csv?gebied=Nederland&years_back=100
 downloadtype:csv;type:;name:;http://vastgoeddashboard.kadaster.nl/vgd/woningen/verkocht.csv?leeftijdscategorie=Alle&years_back=100
@@ -11,7 +13,6 @@ downloadtype:csv;type:;name:;http://vastgoeddashboard.kadaster.nl/vgd/bouwkavels
 downloadtype:csv;type:;name:;http://vastgoeddashboard.kadaster.nl/vgd/veilingen/aantal.csv?years_back=100
 downloadtype:csv;type:;name:;http://vastgoeddashboard.kadaster.nl/vgd/veilingen/aantal.csv?gebied=Nederland&years_back=100
 downloadtype:csv;type:;name:;http://vastgoeddashboard.kadaster.nl/vgd/schepen/aantal.csv?years_back=100
-downloadtype:json;type:ScholingAchterstanden;name:TableInfos;https://opendata.cbs.nl/ODataApi/odata/81081ned/TableInfos
 downloadtype:json;type:ScholingAchterstanden;name:UntypedDataSet;https://opendata.cbs.nl/ODataApi/odata/81081ned/UntypedDataSet
 downloadtype:json;type:ScholingAchterstanden;name:TypedDataSet;https://opendata.cbs.nl/ODataApi/odata/81081ned/TypedDataSet
 downloadtype:json;type:ScholingAchterstanden;name:DataProperties;https://opendata.cbs.nl/ODataApi/odata/81081ned/DataProperties
