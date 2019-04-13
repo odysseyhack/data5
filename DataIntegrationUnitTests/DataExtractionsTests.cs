@@ -207,5 +207,61 @@ namespace DataIntegrationUnitTests
             var test = de.ExecuteDataInformationExtraction(data, ";", "banana.txt");
             Assert.AreEqual(test.DataFieldAnalysis[0].MinimumFieldLength, 157);
         }
+
+        [TestMethod]
+        public void DataExtractionTest18()
+        {
+            DataExtractions de = new DataExtractions();
+            string[] data = null;
+            using (var reader = new StreamReader(@".\Testdata\CsvDelimited.csv"))
+            {
+                data = reader.ReadToEnd().Replace("\r", string.Empty).Split('\n');
+            }
+
+            var test = de.ExecuteDataInformationExtraction(data, ";", "banana.txt");
+            Assert.AreEqual(test.DataFieldAnalysis[0].DamerauValue, 13.4);
+        }
+
+        [TestMethod]
+        public void DataExtractionTest19()
+        {
+            DataExtractions de = new DataExtractions();
+            string[] data = null;
+            using (var reader = new StreamReader(@".\Testdata\CsvDelimited.csv"))
+            {
+                data = reader.ReadToEnd().Replace("\r", string.Empty).Split('\n');
+            }
+
+            var test = de.ExecuteDataInformationExtraction(data, ";", "banana.txt");
+            Assert.AreEqual(test.DataFieldAnalysis[0].FieldIsConsistent, true);
+        }
+
+        [TestMethod]
+        public void DataExtractionTest20()
+        {
+            DataExtractions de = new DataExtractions();
+            string[] data = null;
+            using (var reader = new StreamReader(@".\Testdata\CsvDelimited.csv"))
+            {
+                data = reader.ReadToEnd().Replace("\r", string.Empty).Split('\n');
+            }
+
+            var test = de.ExecuteDataInformationExtraction(data, ";", "banana.txt");
+            Assert.AreEqual(test.DataFieldAnalysis[0].MaximumFieldLength, 157);
+        }
+
+        [TestMethod]
+        public void DataExtractionTest21()
+        {
+            DataExtractions de = new DataExtractions();
+            string[] data = null;
+            using (var reader = new StreamReader(@".\Testdata\CsvDelimited.csv"))
+            {
+                data = reader.ReadToEnd().Replace("\r", string.Empty).Split('\n');
+            }
+
+            var test = de.ExecuteDataInformationExtraction(data, ";", "banana.txt");
+            Assert.AreEqual(test.DataFieldAnalysis[0].MinimumFieldLength, 157);
+        }
     }
 }
