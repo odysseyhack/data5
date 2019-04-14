@@ -2,6 +2,7 @@ using DataIntergration.Controllers;
 using DatasetDownloader;
 using DatasetDownloader.BusinessLogic;
 using DatasetDownloader.BusinessLogic.Filetypes;
+using DatasetDownloader.DataAccess;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
@@ -11,17 +12,24 @@ namespace DataIntegrationUnitTests
     public class DiUnitTest
     {
         [TestMethod]
-        public void TestReadController()
+        public void TestMethodProviderConnectorDataFile1()
         {
-            DatasetReadController drc = new DatasetReadController(new ProviderConnector(new DataExtractions()));
-            drc.ReadDataSet();
+            ProviderConnector pc = new ProviderConnector(new DataExtractions());
+            pc.GetDatasetDataFile(@"https://opendata.arcgis.com/datasets/4e3ee61ac5a34c28981e8c61f94d098a_0.csv", "csv", "asdf");
+        }
+
+        [TestMethod]
+        public void TestMethodProviderConnectorDataFile2()
+        {
+            ProviderConnector pc = new ProviderConnector(new DataExtractions());
+            pc.GetDatasetDataFile(@"https://opendata.arcgis.com/datasets/4e3ee61ac5a34c28981e8c61f94d098a_0.csv", "csv", "asdf");
         }
 
         [TestMethod]
         public void TestMethodProviderConnectorDataFile()
         {
             ProviderConnector pc = new ProviderConnector(new DataExtractions());
-            pc.GetDatasetDataFile(@"https://opendata.arcgis.com/datasets/4e3ee61ac5a34c28981e8c61f94d098a_0.csv", "csv");
+            pc.GetDatasetDataFile(@"https://opendata.arcgis.com/datasets/4e3ee61ac5a34c28981e8c61f94d098a_0.csv", "csv", "asdf");
         }
 
         [TestMethod]
@@ -64,10 +72,10 @@ namespace DataIntegrationUnitTests
         }
 
         [TestMethod]
-        public void TestMethodProviderConnectorDataFile1()
+        public void TestMethodProviderConnectorDataFile234()
         {
             ProviderConnector pc = new ProviderConnector(new DataExtractions());
-            pc.GetDatasetDataFile(@"https://opendata.arcgis.com/datasets/4e3ee61ac5a34c28981e8c61f94d098a_0.csv", "csv");
+            pc.GetDatasetDataFile(@"https://opendata.arcgis.com/datasets/4e3ee61ac5a34c28981e8c61f94d098a_0.csv", "csv", "asdf");
         }
 
         [TestMethod]
@@ -119,7 +127,7 @@ namespace DataIntegrationUnitTests
         public void TestMethodProviderConnectorDataFile13()
         {
             ProviderConnector pc = new ProviderConnector(new DataExtractions());
-            pc.GetDatasetDataFile(@"https://opendata.arcgis.com/datasets/4e3ee61ac5a34c28981e8c61f94d098a_0.csv", "csv");
+            pc.GetDatasetDataFile(@"https://opendata.arcgis.com/datasets/4e3ee61ac5a34c28981e8c61f94d098a_0.csv", "csv", "asdf");
         }
 
         [TestMethod]
@@ -171,7 +179,7 @@ namespace DataIntegrationUnitTests
         public void TestMethodProviderConnectorDataFile11()
         {
             ProviderConnector pc = new ProviderConnector(new DataExtractions());
-            pc.GetDatasetDataFile(@"https://opendata.arcgis.com/datasets/4e3ee61ac5a34c28981e8c61f94d098a_0.csv", "csv");
+            pc.GetDatasetDataFile(@"https://opendata.arcgis.com/datasets/4e3ee61ac5a34c28981e8c61f94d098a_0.csv", "csv", "asdf");
         }
 
         [TestMethod]

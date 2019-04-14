@@ -6,6 +6,6 @@ namespace DatasetDownloader
 {
     public interface IProviderConnector
     {
-        void GetDatasetDataFile(string url, string type);
+        void GetDatasetDataFile(string url, string type, string databaseUrl);
     }
 }

@@ -31,6 +31,7 @@ namespace DatasetDownloader.BusinessLogic
 
             this.GetExtractedInformation(items, potentialHeader, cleanedSet);
 
+            Console.WriteLine(DateTime.Now.ToString() + " - Getting Metadata for Dataset " + Guid.NewGuid().ToString());
             analysisList.CleansetFilename = this.WriteCleanset(cleanedSet);
             analysisList.OriginalsetFilename = this.WriteCleanset(cleanedSet);
             return analysisList;
@@ -83,6 +84,8 @@ namespace DatasetDownloader.BusinessLogic
 
         private string SpittedDamerau(string lastvalue, DataFieldAnalysis dfa, string linedata)
         {
+            Console.WriteLine(DateTime.Now.ToString() + " - Getting Damerau Levenstein distance equation information.");
+
             if (lastvalue.Any())
             {
                 dfa.DamerauValue += this.DamerauLevenshteinDistance(linedata, lastvalue);
@@ -282,6 +285,7 @@ namespace DatasetDownloader.BusinessLogic
 
         private static int[] GetNewCostsInit(string value2)
         {
+            Console.WriteLine(DateTime.Now.ToString() + " - Get new string costs calculation.");
             var costs = new int[value2.Length];
             for (var i = 0; i < costs.Length;)
             {

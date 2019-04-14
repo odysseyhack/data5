@@ -1,5 +1,6 @@
 ﻿using DatasetDownloader.BusinessLogic;
 using DatasetDownloader.BusinessLogic.Filetypes;
+using DatasetDownloader.DataAccess;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,9 @@ namespace DatasetDownloader
         private IDataExtractions extractions { get; set; }
         private List<string> AwaitedDownloads { get; set; }
         private List<string> DownloadedFiles { get; set; }
+
+        private string DatabaseUrl { get; set; }
+
         private bool isDownloading { get; set; }
 
         public ProviderConnector(IDataExtractions dataExtractions)
@@ -24,8 +28,10 @@ namespace DatasetDownloader
             this.extractions = dataExtractions;
         }
 
-        public void GetDatasetDataFile(string url, string type)
+        public void GetDatasetDataFile(string url, string type, string databaseUrl)
         {
+            this.DatabaseUrl = databaseUrl;
+
             if (DownloadedFiles == null)
                 DownloadedFiles = new List<string>();
 
@@ -75,13 +81,16 @@ namespace DatasetDownloader
                 {
                     this.DownloadedFiles.RemoveAt(0);
                     var data = streamreader.ReadToEnd();
+                    MetaDataAccess mda = new MetaDataAccess();
                     switch (type)
                     {
                         case "csv":
-                            (new CommaDelimited(extractions)).ExtractCsvData(data, filename);
+                            var data1 = (new CommaDelimited(extractions)).ExtractCsvData(data, filename);
+                            mda.InsertDataFieldData(data1, this.DatabaseUrl);
                             break;
                         case "json":
-                            (new JsonExtractor(extractions)).GetJsonExtraction(data, filename);
+                            var data2 = (new JsonExtractor(extractions)).GetJsonExtraction(data, filename);
+                            mda.InsertDataFieldData(data2, this.DatabaseUrl);
                             break;
                     }
                 }
