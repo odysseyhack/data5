@@ -9,6 +9,8 @@ namespace DatasetDownloader.DataAccess
 {
     public class MetaDataAccess : IMetaDataAccess
     {
+        private int odsid { get; set; }
+        private SqlConnection connection { get; set; }
         string InsertLineData = "INSERT INTO [dbo].[odsmetadata2]" + "([ods_id]" + ",[FieldIndex]" + ",[FieldName]" + ",[AverageFieldLength]" + ",[MaximumFieldLength]" + ",[MinimumFieldLength]" +
             ",[FieldType]" + ",[FieldConsistenceList]" + ",[FieldIsConsistent]" + ",[ConsistentDataType]" + ",[DamerauValue])" + "VALUES" + "({0}" +
             ",{1}" + ",'{2}'" + ",{3}" + ",{4}" + ",{5}" + ",'{6}'" + ",'{7}'" + ",'{8}'" + ",'{9}'" + ",{10})";
@@ -19,43 +21,48 @@ namespace DatasetDownloader.DataAccess
         {
             try
             {
-                using (var connection = new SqlConnection(databaseConnection))
+                using (connection = new SqlConnection(databaseConnection))
                 {
                     var data = new string[]
                         {
                             Datafield.CleansetFilename,
                             "http://www.TheInternets.com"
                         };
-                    ExecuteMainInsertMethod(Datafield, databaseConnection, connection, data);
+
+                    ExecuteMainInsertMethod(Datafield, databaseConnection, data);
                 }
             }
             catch (Exception ex)
             {
                 return false;
             }
+            finally
+            {
+                this.connection.Close();
+            }
 
             return true;
         }
 
-        private void ExecuteMainInsertMethod(DataFieldMain Datafield, string databaseConnection, SqlConnection connection, string[] data)
+        private void ExecuteMainInsertMethod(DataFieldMain Datafield, string databaseConnection, string[] data)
         {
             Console.WriteLine(DateTime.Now.ToString() + " - Writing header to database for file: " + Datafield.CleansetFilename);
             var sql = string.Format(InsertHeaderData, data);
-            connection.Execute(sql);
-            var odsId = this.GetMaxOds(databaseConnection);
-            this.InsertData(Datafield, databaseConnection, odsId);
+            this.connection.Execute(sql);
+            this.odsid = this.GetMaxOds(databaseConnection);
+            this.InsertData(Datafield, databaseConnection);
         }
 
-        private bool InsertData(DataFieldMain Datafield, string databaseConnection, int odsid)
+        private bool InsertData(DataFieldMain Datafield, string databaseConnection)
         {
             var counter = 0;
             try
             {
-                using (var connection = new SqlConnection(databaseConnection))
+                using (this.connection = new SqlConnection(databaseConnection))
                 {
                     foreach (var item in Datafield.DataFieldAnalysis)
                     {
-                        string[] data = CreateOdString(odsid, counter, item);
+                        string[] data = CreateOdString(counter, item);
                         counter = ExecuteInsertMethod(counter, connection, item, data);
                     }
                 }
@@ -63,6 +70,10 @@ namespace DatasetDownloader.DataAccess
             catch (Exception ex)
             {
                 return false;
+            }
+            finally
+            {
+                this.connection.Close();
             }
 
             return true;
@@ -77,10 +88,10 @@ namespace DatasetDownloader.DataAccess
             return counter;
         }
 
-        private static string[] CreateOdString(int odsid, int counter, DataFieldAnalysis item)
+        private string[] CreateOdString(int counter, DataFieldAnalysis item)
         {
             return new string[] {
-                            odsid.ToString(),
+                            this.odsid.ToString(),
                             counter.ToString(),
                             item.FieldName,
                             item.AverageFieldLength.ToString(),

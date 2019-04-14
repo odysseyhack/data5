@@ -9,6 +9,7 @@ namespace DatasetDownloader.BusinessLogic
 {
     public class DataExtractions : IDataExtractions
     {
+        private List<string> cleanedSet = new List<string>();
         private const string CleanSetLocation = @"C:\Temp\DataDownload\Cleandata\";
         private string delimiter { get; set; }
 
@@ -23,13 +24,13 @@ namespace DatasetDownloader.BusinessLogic
         {
             this.delimiter = delimiterchar;
             
-            var cleanedSet = new List<string>();
+            
             var potentialHeader = items.First();
 
-            cleanedSet.Add(this.CleanString(potentialHeader.Replace(delimiter, "|")).Replace("|", ";").ToLower());
+            this.cleanedSet.Add(this.CleanString(potentialHeader.Replace(delimiter, "|")).Replace("|", ";").ToLower());
             items.ToList().CopyTo(1, items, 0, items.Length - 1);
 
-            this.GetExtractedInformation(items, potentialHeader, cleanedSet);
+            this.GetExtractedInformation(items, potentialHeader);
 
             Console.WriteLine(DateTime.Now.ToString() + " - Getting Metadata for Dataset " + Guid.NewGuid().ToString());
             analysisList.CleansetFilename = this.WriteCleanset(cleanedSet);
@@ -37,7 +38,7 @@ namespace DatasetDownloader.BusinessLogic
             return analysisList;
         }
 
-        private void GetExtractedInformation(string[] items, string header, List<string> cleanedSet)
+        private void GetExtractedInformation(string[] items, string header)
         {
             var index = 0;
             foreach (var column in header.Split(delimiter))
@@ -50,7 +51,7 @@ namespace DatasetDownloader.BusinessLogic
 
                     foreach (var i in items)
                     {
-                        cleanedSet.Add(this.CleanString(i.Replace(delimiter, "|")).Replace("|", ";").ToLower());
+                        this.cleanedSet.Add(this.CleanString(i.Replace(delimiter, "|")).Replace("|", ";").ToLower());
                         if (i.Trim().Any())
                         {
                             string linedata = GetFieldType(delimiter, index, dfa, i);
@@ -94,7 +95,7 @@ namespace DatasetDownloader.BusinessLogic
 
         private string SpittedDamerau(string lastvalue, DataFieldAnalysis dfa, string linedata)
         {
-            Console.WriteLine(DateTime.Now.ToString() + " - Getting Damerau Levenstein distance equation information.");
+            // Console.WriteLine(DateTime.Now.ToString() + " - Getting Damerau Levenstein distance equation information.");
 
             if (lastvalue.Any())
             {
@@ -295,7 +296,6 @@ namespace DatasetDownloader.BusinessLogic
 
         private static int[] GetNewCostsInit(string value2)
         {
-            Console.WriteLine(DateTime.Now.ToString() + " - Get new string costs calculation.");
             var costs = new int[value2.Length];
             for (var i = 0; i < costs.Length;)
             {
