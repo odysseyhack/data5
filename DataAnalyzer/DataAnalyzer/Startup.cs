@@ -2,7 +2,7 @@
 using DataAnalyzer.DataAccess;
 using DataAnalyzer.DataEntities;
 using DataAnalyzer.ServiceAgents;
-using DataAnalyzer.Extensions;
+using DotNetCore.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;

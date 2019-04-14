@@ -1,4 +1,4 @@
-﻿using DataAnalyzer.Extensions;
+﻿using DotNetCore.Extensions;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
