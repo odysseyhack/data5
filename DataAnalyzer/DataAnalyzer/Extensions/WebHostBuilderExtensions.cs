@@ -3,7 +3,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Serilog;
 
-namespace Hackathon.Extensions
+namespace DataAnalyzer.Extensions
 {
     public static class WebHostBuilderExtensions
     {

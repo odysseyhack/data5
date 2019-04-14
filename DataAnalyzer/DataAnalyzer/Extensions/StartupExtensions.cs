@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 
-namespace Hackathon.Extensions
+namespace DataAnalyzer.Extensions
 {
     public static class StartupExtensions
     {

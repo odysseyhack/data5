@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Serilog;
 using Serilog.Events;
 
-namespace Hackathon.Extensions
+namespace DataAnalyzer.Extensions
 {
     public class LoggingMiddleware
     {

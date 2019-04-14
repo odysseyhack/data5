@@ -1,4 +1,4 @@
-﻿using Hackathon.Extensions;
+﻿using DataAnalyzer.Extensions;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
