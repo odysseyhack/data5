@@ -10,7 +10,7 @@ using Serilog.Events;
 
 namespace DataAnalyzer.Extensions
 {
-    public class LoggingMiddleware
+    public class LoggingMiddlewareAnalyzer
     {
         #region Fields
 
@@ -20,7 +20,7 @@ namespace DataAnalyzer.Extensions
 
         #region Constructors and Destructors
 
-        public LoggingMiddleware(RequestDelegate next)
+        public LoggingMiddlewareAnalyzer(RequestDelegate next)
         {
             this.next = next ?? throw new ArgumentNullException(nameof(next));
         }
@@ -37,7 +37,7 @@ namespace DataAnalyzer.Extensions
             }
 
             var sw = Stopwatch.StartNew();
-            var logger = Log.ForContext<LoggingMiddleware>();
+            var logger = Log.ForContext<LoggingMiddlewareAnalyzer>();
 
             try
             {

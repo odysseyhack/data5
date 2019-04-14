@@ -5,7 +5,7 @@ using Serilog;
 
 namespace DataAnalyzer.Extensions
 {
-    public static class WebHostBuilderExtensions
+    public static class WebHostBuilderExtensionsAnalyzer
     {
         #region Public Methods and Operators
 

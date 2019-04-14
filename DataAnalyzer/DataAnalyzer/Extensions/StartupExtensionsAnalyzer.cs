@@ -12,7 +12,7 @@ using Newtonsoft.Json.Serialization;
 
 namespace DataAnalyzer.Extensions
 {
-    public static class StartupExtensions
+    public static class StartupExtensionsAnalyzer
     {
         #region Public Methods and Operators
 
@@ -44,7 +44,7 @@ namespace DataAnalyzer.Extensions
 
         public static IApplicationBuilder UseLogging(this IApplicationBuilder builder)
         {
-            return builder.UseMiddleware<LoggingMiddleware>();
+            return builder.UseMiddleware<LoggingMiddlewareAnalyzer>();
         }
 
         public static IApplicationBuilder UseHealthPage(this IApplicationBuilder app)
