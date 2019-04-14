@@ -6,7 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 using Moq;
-
+using System.Collections.Generic;
 using Xunit;
 
 namespace MachineLearning.Tests
@@ -19,7 +19,7 @@ namespace MachineLearning.Tests
 
         public PatternControllerTests()
         {
-            var matchPrediction = new MatchPrediction { PredictedClusterId = 14, Distances = new[] { (float)1.1, (float)0.5, (float)0.9 } };
+            var matchPrediction = new List<int> { 1, 3, 4 };
             this.matcher = new Mock<IMatcher>();
             this.matcher.Setup(m => m.Match(It.IsAny<ModelData>(), out matchPrediction)).Returns(true);
 
@@ -52,7 +52,7 @@ namespace MachineLearning.Tests
 
             // Check
             var matchResponse = ((OkObjectResult)response).Value as MatchResponse;
-            Assert.Equal<uint>(14, matchResponse.Id);
+            Assert.Equal(14, matchResponse.Id[0]);
         }
 
         [Fact]

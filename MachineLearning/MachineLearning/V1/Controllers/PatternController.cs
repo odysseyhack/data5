@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using MachineLearning.BusinessLogic;
 using MachineLearning.V1.Controllers.Model;
 using Microsoft.AspNetCore.Mvc;
@@ -40,9 +41,9 @@ namespace MachineLearning.Controllers
 
             var modelData = new ModelData { Columns = matchData.Features.ToArray<float>() };
 
-            this.matcher.Match(modelData, out MatchPrediction prediction);
+            this.matcher.Match(modelData, out List<int> prediction);
 
-            return Ok(new MatchResponse { Matched = true, Id = prediction.PredictedClusterId });
+            return Ok(new MatchResponse { Matched = true, Id = prediction });
         }
 
         [HttpPut]
