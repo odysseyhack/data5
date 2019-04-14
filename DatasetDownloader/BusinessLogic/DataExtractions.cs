@@ -9,6 +9,7 @@ namespace DatasetDownloader.BusinessLogic
 {
     public class DataExtractions : IDataExtractions
     {
+        private List<string> cleanedSet = new List<string>();
         private const string CleanSetLocation = @"C:\Temp\DataDownload\Cleandata\";
         private string delimiter { get; set; }
 
@@ -23,20 +24,21 @@ namespace DatasetDownloader.BusinessLogic
         {
             this.delimiter = delimiterchar;
             
-            var cleanedSet = new List<string>();
+            
             var potentialHeader = items.First();
 
-            cleanedSet.Add(this.CleanString(potentialHeader.Replace(delimiter, "|")).Replace("|", ";").ToLower());
+            this.cleanedSet.Add(this.CleanString(potentialHeader.Replace(delimiter, "|")).Replace("|", ";").ToLower());
             items.ToList().CopyTo(1, items, 0, items.Length - 1);
 
-            this.GetExtractedInformation(items, potentialHeader, cleanedSet);
+            this.GetExtractedInformation(items, potentialHeader);
 
+            Console.WriteLine(DateTime.Now.ToString() + " - Getting Metadata for Dataset " + Guid.NewGuid().ToString());
             analysisList.CleansetFilename = this.WriteCleanset(cleanedSet);
             analysisList.OriginalsetFilename = this.WriteCleanset(cleanedSet);
             return analysisList;
         }
 
-        private void GetExtractedInformation(string[] items, string header, List<string> cleanedSet)
+        private void GetExtractedInformation(string[] items, string header)
         {
             var index = 0;
             foreach (var column in header.Split(delimiter))
@@ -45,13 +47,11 @@ namespace DatasetDownloader.BusinessLogic
 
                 try
                 {
-                    DataFieldAnalysis dfa = new DataFieldAnalysis();
-                    this.InstanceNewDataFieldAnalysis(dfa);
-                    this.GetSizeInfo(items, index, column, dfa);
+                    DataFieldAnalysis dfa = PreInit(items, index, column);
 
                     foreach (var i in items)
                     {
-                        cleanedSet.Add(this.CleanString(i.Replace(delimiter, "|")).Replace("|", ";").ToLower());
+                        this.cleanedSet.Add(this.CleanString(i.Replace(delimiter, "|")).Replace("|", ";").ToLower());
                         if (i.Trim().Any())
                         {
                             string linedata = GetFieldType(delimiter, index, dfa, i);
@@ -59,18 +59,30 @@ namespace DatasetDownloader.BusinessLogic
                         }
                     }
 
-                    this.CleanItemProperties(items, dfa);
-
-                    analysisList.DataFieldAnalysis.Add(dfa);
-                    index++;
+                    index = HandleResulst(items, index, dfa);
                 }
                 catch (Exception ex)
                 {
-                    // handle exception!
-                    Console.Write(ex.Message);
                     break;
                 }
             }
+        }
+
+        private int HandleResulst(string[] items, int index, DataFieldAnalysis dfa)
+        {
+            this.CleanItemProperties(items, dfa);
+
+            analysisList.DataFieldAnalysis.Add(dfa);
+            index++;
+            return index;
+        }
+
+        private DataFieldAnalysis PreInit(string[] items, int index, string column)
+        {
+            DataFieldAnalysis dfa = new DataFieldAnalysis();
+            this.InstanceNewDataFieldAnalysis(dfa);
+            this.GetSizeInfo(items, index, column, dfa);
+            return dfa;
         }
 
         private string GetFieldType(string delimiter, int index, DataFieldAnalysis dfa, string i)
@@ -83,6 +95,8 @@ namespace DatasetDownloader.BusinessLogic
 
         private string SpittedDamerau(string lastvalue, DataFieldAnalysis dfa, string linedata)
         {
+            // Console.WriteLine(DateTime.Now.ToString() + " - Getting Damerau Levenstein distance equation information.");
+
             if (lastvalue.Any())
             {
                 dfa.DamerauValue += this.DamerauLevenshteinDistance(linedata, lastvalue);

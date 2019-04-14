@@ -1,14 +1,18 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DatasetDownloader.DataContracts;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using System.IO;
 
 namespace DataIntergration.Controllers
 {
     public class DatasetReadController : Controller
     {
-        DatasetDownloader.IProviderConnector provider { get; set; }
-        public DatasetReadController(DatasetDownloader.IProviderConnector provider)
+        private IOptions<Settings> options;
+        private DatasetDownloader.IProviderConnector provider { get; set; }
+        public DatasetReadController(DatasetDownloader.IProviderConnector provider, IOptions<Settings> options)
         {
             this.provider = provider;
+            this.options = options;
         }
 
         public async void ReadDataSet()
@@ -21,7 +25,7 @@ namespace DataIntergration.Controllers
                     var itemset = line.Split(';');
                     if (itemset.Length > 1)
                     {
-                        provider.GetDatasetDataFile(itemset[3], itemset[0].Split(':')[1]);
+                        provider.GetDatasetDataFile(itemset[3], itemset[0].Split(':')[1], this.options.Value.ConnectionString);
                     }
                 }
                 streamreader.Close();

@@ -12,7 +12,7 @@ namespace DatasetDownloader.BusinessLogic.Filetypes
             this.extractions = extractions;
         }
 
-        public void GetJsonExtraction(string data, string filename)
+        public DataContracts.DataFieldMain GetJsonExtraction(string data, string filename)
         {
             string header = string.Empty;
             var jsondata = new Dictionary<string, List<string>>();
@@ -29,7 +29,7 @@ namespace DatasetDownloader.BusinessLogic.Filetypes
                 NewMethod(jsondata, csvfile);
             }
 
-            this.extractions.ExecuteDataInformationExtraction(csvfile.ToArray(), ";", filename);
+            return this.extractions.ExecuteDataInformationExtraction(csvfile.ToArray(), ";", filename);
         }
 
         private static void NewMethod(Dictionary<string, List<string>> jsondata, List<string> csvfile)

@@ -69,7 +69,6 @@ downloadtype:json;type:verdachten_migratie;name:Leeftijd;https://opendata.cbs.nl
 downloadtype:json;type:verdachten_migratie;name:Migratieachtergrond;https://opendata.cbs.nl/ODataApi/odata/81959NED/Migratieachtergrond
 downloadtype:json;type:verdachten_migratie;name:Generatie;https://opendata.cbs.nl/ODataApi/odata/81959NED/Generatie
 downloadtype:json;type:verdachten_migratie;name:Perioden;https://opendata.cbs.nl/ODataApi/odata/81959NED/Perioden
-downloadtype:zip;type:;name:;https://www.kvk.nl/download/kvk-open-data-set-handelsregister.zip
 downloadtype:json;type:;name:;https://opendata.rdw.nl/resource/m9d7-ebf2.json
 downloadtype:rss;type:;name:;https://opendata.rdw.nl/api/views/m9d7-ebf2/rows.rss?accessType=DOWNLOAD
 downloadtype:json;type:;name:openbarevoorziendinghaarlem;https://wfs.haarlem.nl/ows?service=WFS&version=2.0.0&request=GetCapabilities
@@ -81,10 +80,6 @@ downloadtype:json;type:;name:;https://geodata.nationaalgeoregister.nl/tiles/serv
 downloadtype:json;type:;name:;https://geodata.nationaalgeoregister.nl/bag/wms?
 downloadtype:json;type:;name:;https://geodata.nationaalgeoregister.nl/bag/wfs?
 downloadtype:json;type:;name:;https://geodata.nationaalgeoregister.nl/tiles/service/wmts/bag?VERSION=1.0.0&request=GetCapabilities
-downloadtype:zip;type:;name:;https://data.overheid.nl/OpenDataSets/LBM2015/leefbaarometer_2.0.zip
-downloadtype:zip;type:;name:;https://data.overheid.nl/OpenDataSets/LBM2015/gemeente.zip
-downloadtype:zip;type:;name:;https://data.overheid.nl/OpenDataSets/LBM2015/buurt.zip
-downloadtype:zip;type:;name:;https://data.overheid.nl/OpenDataSets/LBM2015/wijk.zip
 downloadtype:xlsx;type:;name:;https://migratie.dcat-ap-donl.nl/dataset/86e40991-de3e-4c25-9b83-2639032e3dc6/resource/ca060ac7-b091-46ac-8d06-4d0193a5f8d4/download/dvi2016h5.xlsx
 downloadtype:xml;type:;name:;https://opendata.cbs.nl/ODataFeed/OData/82324ENG/TableInfos
 downloadtype:xml;type:;name:;https://opendata.cbs.nl/ODataFeed/OData/82324ENG/UntypedDataSet
