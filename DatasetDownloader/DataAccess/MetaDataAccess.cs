@@ -26,13 +26,7 @@ namespace DatasetDownloader.DataAccess
                             Datafield.CleansetFilename,
                             "http://www.TheInternets.com"
                         };
-
-                    Console.WriteLine(DateTime.Now.ToString() + " - Writing header to database for file: " + Datafield.CleansetFilename);
-                    var sql = string.Format(InsertHeaderData, data);
-                    connection.Execute(sql);
-
-                    var odsId = this.GetMaxOds(databaseConnection);
-                    this.InsertData(Datafield, databaseConnection, odsId);
+                    ExecuteMainInsertMethod(Datafield, databaseConnection, connection, data);
                 }
             }
             catch (Exception ex)
@@ -41,6 +35,15 @@ namespace DatasetDownloader.DataAccess
             }
 
             return true;
+        }
+
+        private void ExecuteMainInsertMethod(DataFieldMain Datafield, string databaseConnection, SqlConnection connection, string[] data)
+        {
+            Console.WriteLine(DateTime.Now.ToString() + " - Writing header to database for file: " + Datafield.CleansetFilename);
+            var sql = string.Format(InsertHeaderData, data);
+            connection.Execute(sql);
+            var odsId = this.GetMaxOds(databaseConnection);
+            this.InsertData(Datafield, databaseConnection, odsId);
         }
 
         private bool InsertData(DataFieldMain Datafield, string databaseConnection, int odsid)
@@ -53,11 +56,7 @@ namespace DatasetDownloader.DataAccess
                     foreach (var item in Datafield.DataFieldAnalysis)
                     {
                         string[] data = CreateOdString(odsid, counter, item);
-
-                        var sql = string.Format(InsertLineData, data);
-                        counter += 1;
-                        Console.WriteLine(DateTime.Now.ToString() + " - Writing line data to database for field: " + item.FieldName + " - " + item.ConsistentDataType);
-                        connection.Execute(sql);
+                        counter = ExecuteInsertMethod(counter, connection, item, data);
                     }
                 }
             }
@@ -67,6 +66,15 @@ namespace DatasetDownloader.DataAccess
             }
 
             return true;
+        }
+
+        private int ExecuteInsertMethod(int counter, SqlConnection connection, DataFieldAnalysis item, string[] data)
+        {
+            var sql = string.Format(InsertLineData, data);
+            counter += 1;
+            Console.WriteLine(DateTime.Now.ToString() + " - Writing line data to database for field: " + item.FieldName + " - " + item.ConsistentDataType);
+            connection.Execute(sql);
+            return counter;
         }
 
         private static string[] CreateOdString(int odsid, int counter, DataFieldAnalysis item)

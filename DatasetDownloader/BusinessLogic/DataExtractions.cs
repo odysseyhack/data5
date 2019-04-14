@@ -46,9 +46,7 @@ namespace DatasetDownloader.BusinessLogic
 
                 try
                 {
-                    DataFieldAnalysis dfa = new DataFieldAnalysis();
-                    this.InstanceNewDataFieldAnalysis(dfa);
-                    this.GetSizeInfo(items, index, column, dfa);
+                    DataFieldAnalysis dfa = PreInit(items, index, column);
 
                     foreach (var i in items)
                     {
@@ -60,18 +58,30 @@ namespace DatasetDownloader.BusinessLogic
                         }
                     }
 
-                    this.CleanItemProperties(items, dfa);
-
-                    analysisList.DataFieldAnalysis.Add(dfa);
-                    index++;
+                    index = HandleResulst(items, index, dfa);
                 }
                 catch (Exception ex)
                 {
-                    // handle exception!
-                    Console.Write(ex.Message);
                     break;
                 }
             }
+        }
+
+        private int HandleResulst(string[] items, int index, DataFieldAnalysis dfa)
+        {
+            this.CleanItemProperties(items, dfa);
+
+            analysisList.DataFieldAnalysis.Add(dfa);
+            index++;
+            return index;
+        }
+
+        private DataFieldAnalysis PreInit(string[] items, int index, string column)
+        {
+            DataFieldAnalysis dfa = new DataFieldAnalysis();
+            this.InstanceNewDataFieldAnalysis(dfa);
+            this.GetSizeInfo(items, index, column, dfa);
+            return dfa;
         }
 
         private string GetFieldType(string delimiter, int index, DataFieldAnalysis dfa, string i)
