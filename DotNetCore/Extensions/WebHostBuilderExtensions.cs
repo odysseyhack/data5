@@ -3,9 +3,9 @@
 using Microsoft.AspNetCore.Hosting;
 using Serilog;
 
-namespace Hackathon.Extensions
+namespace DotNetCore.Extensions
 {
-    public static class WebHostBuilderExtensions
+    public static class WebHostBuilderExtensionsAnalyzer
     {
         #region Public Methods and Operators
 

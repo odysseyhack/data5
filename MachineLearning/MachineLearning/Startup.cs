@@ -1,4 +1,4 @@
-﻿using Hackathon.Extensions;
+﻿using DotNetCore.Extensions;
 using MachineLearning.BusinessLogic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

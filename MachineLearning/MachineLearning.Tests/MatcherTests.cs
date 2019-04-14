@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 
 using Moq;
-
+using System.Collections.Generic;
 using Xunit;
 
 namespace MachineLearning.Tests
@@ -47,7 +47,7 @@ namespace MachineLearning.Tests
             matcher.Learn(@".\Data\TestSet.csv", 6, true, new[] { "Columns" });
 
             // Test
-            var response = matcher.Match(new ModelData { Columns = new[] { (float)0.1, (float)0.2, (float)0.3, (float)0.4, (float)0.5, (float)0.6, (float)0.7 } }, out MatchPrediction matchPrediction);
+            var response = matcher.Match(new ModelData { Columns = new[] { (float)0.1, (float)0.2, (float)0.3, (float)0.4, (float)0.5, (float)0.6, (float)0.7 } }, out List<int> matchPrediction);
 
             // Check
             Assert.True(response);
