@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using DataAnalyzer.DataEntities;
+using DotNetCore.Entities;
 
 namespace DataAnalyzer.DataAccess
 {

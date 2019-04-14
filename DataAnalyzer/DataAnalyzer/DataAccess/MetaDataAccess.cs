@@ -4,6 +4,7 @@ using System.Linq;
 
 using Dapper;
 using DataAnalyzer.DataEntities;
+using DotNetCore.Entities;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
